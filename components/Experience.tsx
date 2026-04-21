@@ -13,6 +13,7 @@ const Act3 = dynamic(() => import("@/components/acts/Act3Reveal"), { ssr: false 
 const Act4 = dynamic(() => import("@/components/acts/Act4Garden"), { ssr: false });
 const Act5 = dynamic(() => import("@/components/acts/Act5VsEarth"), { ssr: false });
 const Act6 = dynamic(() => import("@/components/acts/Act6Bouquet"), { ssr: false });
+const Cake = dynamic(() => import("@/components/acts/CakeAct"), { ssr: false });
 const Act7 = dynamic(() => import("@/components/acts/Act7Finale"), { ssr: false });
 
 export default function Experience() {
@@ -33,6 +34,7 @@ export default function Experience() {
         {act === "act4" && <Act4 key="act4" />}
         {act === "act5" && <Act5 key="act5" />}
         {act === "act6" && <Act6 key="act6" />}
+        {act === "cake" && <Cake key="cake" />}
         {act === "act7" && <Act7 key="act7" />}
       </AnimatePresence>
     </>

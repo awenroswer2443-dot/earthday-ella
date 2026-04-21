@@ -18,6 +18,7 @@ export type ActId =
   | "act4"
   | "act5"
   | "act6"
+  | "cake"
   | "act7";
 
 interface State {
@@ -50,6 +51,7 @@ const initial: State = {
     act4: false,
     act5: false,
     act6: false,
+    cake: false,
     act7: false,
   },
   soundOn: true,

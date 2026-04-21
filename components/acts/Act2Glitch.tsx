@@ -8,6 +8,16 @@ import { useGame } from "@/lib/game-state";
 import { content } from "@/lib/content";
 import { play } from "@/lib/sounds";
 
+function vibrate(p: number | number[]) {
+  if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+    try {
+      navigator.vibrate(p);
+    } catch {
+      /* ignore */
+    }
+  }
+}
+
 export default function Act2Glitch() {
   const { go } = useGame();
   const lines = content.act2.glitchLines;
@@ -19,12 +29,15 @@ export default function Act2Glitch() {
       const d = step < 2 ? 600 : step < lines.length - 2 ? 450 : 800;
       const t = setTimeout(() => {
         play(step % 2 === 0 ? "tap" : "pop");
+        const buzz = Math.max(10, 12 + step * 6);
+        vibrate(buzz);
         setStep((s) => s + 1);
       }, d);
       return () => clearTimeout(t);
     } else if (!autoAdvance.current) {
       autoAdvance.current = true;
       play("whoosh");
+      vibrate([80, 40, 80, 40, 120]);
       const t = setTimeout(() => go("act3"), 900);
       return () => clearTimeout(t);
     }
@@ -54,7 +67,14 @@ export default function Act2Glitch() {
       />
 
       {/* Central morphing icon */}
-      <div className="relative z-10 flex min-h-[100dvh] w-full flex-col items-center justify-center gap-6 px-6">
+      <motion.div
+        className="relative z-10 flex min-h-[100dvh] w-full flex-col items-center justify-center gap-6 px-6"
+        animate={{
+          x: [0, -2 * intensity * 3, 3 * intensity * 3, -2 * intensity * 3, 0],
+          y: [0, 1 * intensity * 3, -2 * intensity * 3, 1 * intensity * 3, 0],
+        }}
+        transition={{ duration: 0.18, repeat: Infinity }}
+      >
         <motion.div
           animate={{
             x: [0, -6 * intensity, 4 * intensity, -2 * intensity, 0],
@@ -150,7 +170,7 @@ export default function Act2Glitch() {
           animate={{ y: ["-20vh", "120vh"] }}
           transition={{ duration: 1.6, repeat: Infinity, ease: "linear" }}
         />
-      </div>
+      </motion.div>
     </Screen>
   );
 }

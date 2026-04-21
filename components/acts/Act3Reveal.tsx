@@ -11,11 +11,15 @@ import { HeartIcon, SparkleIcon, StarIcon } from "@/components/ui/Icons";
 import { useGame } from "@/lib/game-state";
 import { content } from "@/lib/content";
 import { play } from "@/lib/sounds";
+import { useTypewriter } from "@/lib/useTypewriter";
+import { useTilt } from "@/lib/useTilt";
 
 export default function Act3Reveal() {
   const { go } = useGame();
   const c = content.act3;
   const [fire, setFire] = useState(0);
+  const typed = useTypewriter(c.tagline, { speed: 38, startDelay: 1000 });
+  const tilt = useTilt(30);
 
   useEffect(() => {
     play("unlock");
@@ -49,11 +53,14 @@ export default function Act3Reveal() {
           <SparkleIcon size={18} /> {c.preTitle} <SparkleIcon size={18} />
         </motion.div>
 
-        {/* Mascot */}
+        {/* Mascot with tilt parallax */}
         <motion.div
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: 0 }}
           transition={{ delay: 0.2, type: "spring", stiffness: 160, damping: 12 }}
+          style={{
+            transform: `translate(${tilt.x * 14}px, ${tilt.y * 14}px)`,
+          }}
         >
           <Mascot size={140} mood="wink" />
         </motion.div>
@@ -98,7 +105,16 @@ export default function Act3Reveal() {
           transition={{ delay: 1.0 }}
           className="max-w-xl font-display text-lg font-semibold italic text-blush-600 sm:text-xl"
         >
-          {c.tagline}
+          {typed.text}
+          {!typed.done && (
+            <motion.span
+              animate={{ opacity: [0, 1, 0] }}
+              transition={{ duration: 0.8, repeat: Infinity }}
+              className="ml-0.5 inline-block"
+            >
+              |
+            </motion.span>
+          )}
         </motion.p>
 
         {/* Decorative row */}

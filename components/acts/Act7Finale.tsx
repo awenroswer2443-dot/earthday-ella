@@ -1,10 +1,12 @@
 "use client";
 
-import { motion } from "framer-motion";
+import { AnimatePresence, motion } from "framer-motion";
 import { useEffect, useState } from "react";
 import Screen from "@/components/ui/Screen";
 import CandyButton from "@/components/ui/CandyButton";
 import Confetti from "@/components/ui/Confetti";
+import Fireworks from "@/components/ui/Fireworks";
+import Starfield from "@/components/ui/Starfield";
 import FloatingDecor from "@/components/ui/FloatingDecor";
 import Mascot from "@/components/ui/Mascot";
 import { HeartIcon, SparkleIcon, StarIcon } from "@/components/ui/Icons";
@@ -12,10 +14,22 @@ import { useGame } from "@/lib/game-state";
 import { content } from "@/lib/content";
 import { play } from "@/lib/sounds";
 
+function vibrate(pattern: number | number[]) {
+  if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+    try {
+      navigator.vibrate(pattern);
+    } catch {
+      /* ignore */
+    }
+  }
+}
+
 export default function Act7Finale() {
   const { go, reset } = useGame();
   const c = content.act7;
   const [fire, setFire] = useState(0);
+  const [beeTaps, setBeeTaps] = useState(0);
+  const [showSecret, setShowSecret] = useState(false);
 
   useEffect(() => {
     play("win");
@@ -31,6 +45,7 @@ export default function Act7Finale() {
       play("success");
       setFire((f) => f + 1);
     }, 2800);
+    vibrate([60, 40, 60, 40, 160]);
     return () => {
       clearTimeout(t1);
       clearTimeout(t2);
@@ -43,12 +58,39 @@ export default function Act7Finale() {
     go("act1");
   };
 
+  const onBeeTap = () => {
+    play("pop");
+    vibrate(20);
+    setBeeTaps((t) => {
+      const next = t + 1;
+      if (next >= 3 && !showSecret) {
+        setShowSecret(true);
+        play("unlock");
+        setFire((f) => f + 1);
+        vibrate([80, 40, 80, 40, 80, 40, 160]);
+      }
+      return next;
+    });
+  };
+
   return (
     <Screen background="bg-dreamy-gradient">
-      <FloatingDecor count={22} palette="ella" />
-      <Confetti fire={fire} continuous intensity={0.6} />
+      {/* Night-sky feel behind everything */}
+      <div
+        className="absolute inset-0"
+        style={{
+          background:
+            "radial-gradient(1200px 600px at 50% 0%, #ffe4ec 0%, #ffcce0 30%, #f3e5ff 60%, #dfe3ff 100%)",
+        }}
+        aria-hidden
+      />
+      <Starfield count={70} />
+      <FloatingDecor count={14} palette="ella" />
+      <Fireworks active density={1.2} />
+      <Confetti fire={fire} continuous intensity={0.5} />
 
       <div className="relative z-10 flex min-h-[100dvh] w-full flex-col items-center justify-center gap-6 px-6 py-20 text-center">
+        {/* Bee mascot — the secret trigger */}
         <motion.div
           initial={{ scale: 0, rotate: -180 }}
           animate={{ scale: 1, rotate: 0 }}
@@ -59,7 +101,15 @@ export default function Act7Finale() {
             damping: 12,
           }}
         >
-          <Mascot size={140} variant="bee" />
+          <motion.button
+            onClick={onBeeTap}
+            whileTap={{ scale: 0.85, rotate: -10 }}
+            whileHover={{ scale: 1.06, rotate: 4 }}
+            className="cursor-pointer rounded-full"
+            aria-label="Mystery bee"
+          >
+            <Mascot size={140} variant="bee" />
+          </motion.button>
         </motion.div>
 
         <motion.h2
@@ -96,15 +146,16 @@ export default function Act7Finale() {
           <HeartIcon size={22} />
         </motion.div>
 
-        {/* Letter */}
+        {/* Letter in a polaroid-ish frame */}
         <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={{ opacity: 1, y: 0 }}
+          initial={{ opacity: 0, y: 30, rotate: -2 }}
+          animate={{ opacity: 1, y: 0, rotate: -1.5 }}
           transition={{ delay: 0.8 }}
-          className="max-w-xl rounded-[32px] bg-white/85 p-6 text-left shadow-dreamy backdrop-blur"
+          className="max-w-xl rounded-[32px] bg-white/90 p-6 text-left shadow-dreamy backdrop-blur"
+          style={{ boxShadow: "0 30px 60px -20px rgba(199, 98, 176, 0.45)" }}
         >
           <div className="flex items-center gap-2 border-b border-blush-200 pb-2 font-display text-sm font-bold uppercase tracking-widest text-blush-500">
-            <HeartIcon size={16} /> A letter
+            <HeartIcon size={16} /> A letter · April 22, 2026
           </div>
           <div className="mt-4 flex flex-col gap-4 font-display text-base leading-relaxed text-[#3b1e3a]/90 sm:text-lg">
             {c.letter.map((line, i) => (
@@ -112,7 +163,7 @@ export default function Act7Finale() {
                 key={i}
                 initial={{ opacity: 0, y: 10 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1.0 + i * 0.25 }}
+                transition={{ delay: 1.0 + i * 0.22 }}
               >
                 {line}
               </motion.p>
@@ -123,17 +174,49 @@ export default function Act7Finale() {
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
-          transition={{ delay: 1.0 + c.letter.length * 0.25 + 0.4 }}
-          className="text-sm italic text-[#3b1e3a]/60"
+          transition={{ delay: 1.0 + c.letter.length * 0.22 + 0.3 }}
+          className="max-w-md text-sm italic text-[#3b1e3a]/60"
         >
           {c.signoff}
         </motion.div>
+
+        {/* Secret bee message */}
+        <AnimatePresence>
+          {showSecret && (
+            <motion.div
+              initial={{ opacity: 0, scale: 0.7, y: 20 }}
+              animate={{ opacity: 1, scale: 1, y: 0 }}
+              exit={{ opacity: 0, scale: 0.7 }}
+              className="relative max-w-md rounded-3xl bg-gradient-to-br from-gold-200 via-blush-200 to-lilac-200 p-5 text-center font-display text-base font-bold text-[#3b1e3a] shadow-dreamy"
+            >
+              <motion.div
+                className="absolute -top-3 left-1/2 -translate-x-1/2 rounded-full bg-white/80 px-3 py-0.5 text-[10px] font-bold uppercase tracking-widest text-blush-500 shadow"
+                animate={{ rotate: [-3, 3, -3] }}
+                transition={{ duration: 2, repeat: Infinity }}
+              >
+                secret unlocked
+              </motion.div>
+              {c.secret}
+            </motion.div>
+          )}
+        </AnimatePresence>
+
+        {beeTaps > 0 && beeTaps < 3 && !showSecret && (
+          <motion.div
+            key={beeTaps}
+            initial={{ opacity: 0, y: -6 }}
+            animate={{ opacity: 0.6, y: 0 }}
+            className="text-xs italic text-[#3b1e3a]/60"
+          >
+            {beeTaps === 1 ? "hmm." : "almost…"}
+          </motion.div>
+        )}
 
         <motion.div
           initial={{ opacity: 0, scale: 0 }}
           animate={{ opacity: 1, scale: 1 }}
           transition={{
-            delay: 1.0 + c.letter.length * 0.25 + 0.6,
+            delay: 1.0 + c.letter.length * 0.22 + 0.5,
             type: "spring",
             stiffness: 200,
             damping: 12,
@@ -147,6 +230,7 @@ export default function Act7Finale() {
             onClick={() => {
               play("sparkle");
               setFire((f) => f + 1);
+              vibrate([20, 30, 20]);
             }}
           >
             <SparkleIcon size={18} /> more confetti

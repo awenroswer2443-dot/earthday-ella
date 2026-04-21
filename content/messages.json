@@ -10,7 +10,8 @@
     "facts": [
       "Did you know? 100% of Earths contain Ella.",
       "Fun fact: all oxygen on Earth is downstream of one specific person.",
-      "Scientists agree: the planet is 3.7% more radiant on April 22nd.",
+      "Scientists agree: the planet is 3.7% more radiant on April 22.",
+      "Local reports confirm: tea tastes better in her hands.",
       "Bees do a little dance. It's about Ella.",
       "The Sun rises every 24 hours just to check in on her."
     ]
@@ -84,12 +85,12 @@
       {
         "id": "s4",
         "color": "peach",
-        "bud": "Coffee that's always the right temperature."
+        "bud": "Tea that's always the right temperature. Biscuits, optional. Company, required."
       },
       {
         "id": "s5",
         "color": "moss",
-        "bud": "Every plane you take, landing safely. Every timezone we share, shrinking."
+        "bud": "Every drive, safe. Every km between us, shrinking. Every return, a little bit home."
       }
     ],
     "doneTitle": "Your garden is blooming.",
@@ -103,7 +104,7 @@
       {
         "cat": "Age",
         "earth": { "v": "4.5 billion years", "tag": "ancient" },
-        "ella": { "v": "exactly the right age", "tag": "iconic" }
+        "ella": { "v": "19 — exactly the right age", "tag": "19 years of iconic" }
       },
       {
         "cat": "Mass",
@@ -123,7 +124,7 @@
       {
         "cat": "Distance",
         "earth": { "v": "149.6 million km from Sun", "tag": "far" },
-        "ella": { "v": "too many km from me this week", "tag": "working on it" }
+        "ella": { "v": "a few South African km too many", "tag": "closing the gap" }
       },
       {
         "cat": "Moons",
@@ -154,16 +155,30 @@
     "done": "A whole bouquet. Wrapped in a ribbon. Brought to you by the internet.",
     "cta": "one more thing"
   },
+  "cake": {
+    "title": "Make a wish",
+    "sub": "Tap each candle to blow it out. Nineteen of them — one for every year of you.",
+    "candles": 19,
+    "micTitle": "Or — if you're feeling dramatic — blow into your mic.",
+    "micButton": "I'll blow for real",
+    "micActive": "listening… blow gently",
+    "micDenied": "no mic, no problem — tap the candles",
+    "doneTitle": "Wish made.",
+    "doneSub": "19 candles. Whatever you wished — I hope it finds you.",
+    "cta": "one more thing"
+  },
   "act7": {
     "title": "Happy Ella Day",
     "letter": [
-      "The Earth gets one day a year, and it has to share with you.",
-      "I don't know how oceans and forests and entire atmospheres feel about that, but they can deal.",
-      "You are the best thing about this little planet. Long distance is just geography — you're closer than any km would suggest.",
-      "Have the softest, loudest, sunniest, most you day. I'm so proud of you. I'm so lucky.",
+      "The Earth gets one day a year, and it has to share with you. 19 years in, and you're still the better headline.",
+      "I don't know how oceans and forests and entire atmospheres feel about that. They can deal.",
+      "You are the best thing about this little planet. A few km of South Africa between us isn't much — definitely not enough to stop me from being proud of you today.",
+      "Have the softest, loudest, sunniest, most you day. Drink the tea. Laugh the laugh. Own the 19.",
+      "I'm so proud of you. I'm so lucky.",
       "— Chad"
     ],
-    "signoff": "p.s. refresh for confetti.",
+    "signoff": "p.s. tap the little bee 🐝 three times. she's hiding something.",
+    "secret": "told you. one more: every day is earth day. except today. today is yours.",
     "replay": "replay the whole thing"
   }
 }

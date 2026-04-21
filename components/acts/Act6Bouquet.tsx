@@ -179,7 +179,7 @@ export default function Act6Bouquet() {
                   variant="pink"
                   size="md"
                   sound="chime"
-                  onClick={() => go("act7")}
+                  onClick={() => go("cake")}
                 >
                   <HeartIcon size={16} /> {c.cta}
                 </CandyButton>

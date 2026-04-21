@@ -119,6 +119,13 @@ export default function Act1EarthDay() {
           sound="whoosh"
           onClick={() => {
             play("pop");
+            if (typeof navigator !== "undefined" && "vibrate" in navigator) {
+              try {
+                navigator.vibrate([20, 30, 20, 30, 100]);
+              } catch {
+                /* ignore */
+              }
+            }
             go("act2");
           }}
           className="text-base sm:text-lg"
