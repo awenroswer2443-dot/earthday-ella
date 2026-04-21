@@ -101,8 +101,8 @@ export default function Act7Finale() {
       />
       <Starfield count={70} />
       <FloatingDecor count={14} palette="ella" />
-      <Fireworks active density={1.2} />
-      <Confetti fire={fire} continuous intensity={0.5} />
+      <Fireworks active density={0.55} />
+      <Confetti fire={fire} intensity={0.35} />
 
       {/* Tap-spawned love floaters */}
       <AnimatePresence>
@@ -113,7 +113,7 @@ export default function Act7Finale() {
             animate={{ opacity: [0, 1, 1, 0], scale: [0.4, 1.1, 1, 0.9], y: -90 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 1.4, ease: "easeOut" }}
-            className="pointer-events-none fixed z-50 -translate-x-1/2 -translate-y-1/2 font-display text-sm font-black text-blush-500 drop-shadow sm:text-base"
+            className="pointer-events-none fixed z-[80] -translate-x-1/2 -translate-y-1/2 font-display text-sm font-black text-blush-500 drop-shadow sm:text-base"
             style={{
               left: f.x,
               top: f.y,
@@ -126,7 +126,7 @@ export default function Act7Finale() {
       </AnimatePresence>
 
       <div
-        className="relative z-10 flex min-h-[100dvh] w-full flex-col items-center justify-center gap-6 px-6 py-20 text-center"
+        className="relative z-[70] flex min-h-[100dvh] w-full flex-col items-center justify-center gap-6 px-6 py-20 text-center"
         onPointerDown={(e) => {
           spawnFloater(e.clientX, e.clientY);
           play("kiss");
