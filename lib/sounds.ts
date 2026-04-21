@@ -14,10 +14,13 @@ type SoundName =
   | "success"
   | "unlock"
   | "whoosh"
-  | "win";
+  | "win"
+  | "kiss"
+  | "birthday";
 
 let ctx: AudioContext | null = null;
 let muted = false;
+let birthdayStopId = 0;
 
 function getCtx() {
   if (typeof window === "undefined") return null;
@@ -79,8 +82,97 @@ function chord(freqs: number[], opts?: Parameters<typeof tone>[1]) {
   freqs.forEach((f, i) => tone(f, { ...opts, delay: (opts?.delay ?? 0) + i * 0.05 }));
 }
 
+// Happy Birthday melody — classic tune in C major.
+// Each row: [frequency, beats]
+// 1 beat ≈ 0.35s for a gentle singalong tempo.
+const NOTES = {
+  G4: 392.0,
+  A4: 440.0,
+  B4: 493.88,
+  C5: 523.25,
+  D5: 587.33,
+  E5: 659.25,
+  F5: 698.46,
+  G5: 783.99,
+};
+const BIRTHDAY_MELODY: Array<[number, number]> = [
+  // Happy birth-day to you
+  [NOTES.G4, 0.75], [NOTES.G4, 0.25], [NOTES.A4, 1], [NOTES.G4, 1], [NOTES.C5, 1], [NOTES.B4, 2],
+  // Happy birth-day to you
+  [NOTES.G4, 0.75], [NOTES.G4, 0.25], [NOTES.A4, 1], [NOTES.G4, 1], [NOTES.D5, 1], [NOTES.C5, 2],
+  // Happy birth-day dear El-la
+  [NOTES.G4, 0.75], [NOTES.G4, 0.25], [NOTES.G5, 1], [NOTES.E5, 1], [NOTES.C5, 1], [NOTES.B4, 1], [NOTES.A4, 1.5],
+  // Happy birth-day to you
+  [NOTES.F5, 0.75], [NOTES.F5, 0.25], [NOTES.E5, 1], [NOTES.C5, 1], [NOTES.D5, 1], [NOTES.C5, 2],
+];
+
+function playBirthday(startOffset = 0) {
+  const c = getCtx();
+  if (!c) return () => {};
+  const beat = 0.36; // seconds per beat
+  let t = startOffset;
+  const sources: OscillatorNode[] = [];
+  for (const [freq, beats] of BIRTHDAY_MELODY) {
+    const dur = beats * beat;
+    const osc = c.createOscillator();
+    const gain = c.createGain();
+    osc.type = "triangle";
+    osc.frequency.setValueAtTime(freq, c.currentTime + t);
+    osc.connect(gain).connect(c.destination);
+    const start = c.currentTime + t;
+    // soft attack + sustained body + tail
+    gain.gain.setValueAtTime(0, start);
+    gain.gain.linearRampToValueAtTime(0.13, start + 0.04);
+    gain.gain.setValueAtTime(0.13, start + Math.max(0.04, dur * 0.7));
+    gain.gain.exponentialRampToValueAtTime(0.0001, start + dur);
+    osc.start(start);
+    osc.stop(start + dur + 0.02);
+    sources.push(osc);
+    t += dur;
+  }
+  // Final chime flourish after the melody
+  const flourishAt = t + 0.1;
+  [NOTES.C5, NOTES.E5, NOTES.G5].forEach((f, i) => {
+    const osc = c.createOscillator();
+    const gain = c.createGain();
+    osc.type = "sine";
+    osc.frequency.setValueAtTime(f, c.currentTime + flourishAt + i * 0.06);
+    osc.connect(gain).connect(c.destination);
+    const start = c.currentTime + flourishAt + i * 0.06;
+    gain.gain.setValueAtTime(0, start);
+    gain.gain.linearRampToValueAtTime(0.1, start + 0.02);
+    gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.8);
+    osc.start(start);
+    osc.stop(start + 0.85);
+    sources.push(osc);
+  });
+  return () => {
+    sources.forEach((o) => {
+      try {
+        o.stop();
+      } catch {
+        /* ignore */
+      }
+    });
+  };
+}
+
+let stopBirthdayFn: (() => void) | null = null;
+export function stopBirthday() {
+  if (stopBirthdayFn) {
+    try {
+      stopBirthdayFn();
+    } catch {
+      /* ignore */
+    }
+    stopBirthdayFn = null;
+  }
+  birthdayStopId++;
+}
+
 export function setMuted(next: boolean) {
   muted = next;
+  if (muted) stopBirthday();
 }
 
 export function isMuted() {
@@ -134,6 +226,15 @@ export function play(name: SoundName) {
         peak: 0.12,
         delay: 0.25,
       });
+      break;
+    case "kiss":
+      tone(880, { type: "sine", attack: 0.01, decay: 0.08, peak: 0.1 });
+      tone(1320, { type: "sine", attack: 0.01, decay: 0.12, peak: 0.08, delay: 0.05 });
+      tone(1760, { type: "sine", attack: 0.005, decay: 0.18, peak: 0.06, delay: 0.12 });
+      break;
+    case "birthday":
+      stopBirthday();
+      stopBirthdayFn = playBirthday(0);
       break;
   }
 }

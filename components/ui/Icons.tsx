@@ -182,6 +182,21 @@ export const RecycleIcon = mk("0 0 32 32", ({ fill }) => (
   />
 ));
 
+export const MusicIcon = mk("0 0 24 24", ({ fill }) => (
+  <>
+    <path
+      d="M9 17V6l10-3v11"
+      stroke={fill}
+      strokeWidth={2}
+      strokeLinecap="round"
+      strokeLinejoin="round"
+      fill="none"
+    />
+    <circle cx={7} cy={17} r={3} fill={fill} />
+    <circle cx={17} cy={14} r={3} fill={fill} />
+  </>
+));
+
 export const iconByName = (name: string) => {
   switch (name) {
     case "heart":

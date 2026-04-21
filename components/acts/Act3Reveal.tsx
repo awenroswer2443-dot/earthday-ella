@@ -135,9 +135,18 @@ export default function Act3Reveal() {
           initial={{ opacity: 0, y: 10 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 1.4 }}
-          className="max-w-md px-4 text-center text-sm text-[#3b1e3a]/70"
+          className="max-w-md px-4 text-center text-sm text-[#3b1e3a]/80"
         >
           {c.credit}
+        </motion.div>
+
+        <motion.div
+          initial={{ opacity: 0, scale: 0 }}
+          animate={{ opacity: 1, scale: 1 }}
+          transition={{ delay: 1.5, type: "spring", stiffness: 200 }}
+          className="flex items-center gap-1 rounded-full bg-gradient-to-r from-blush-200 to-lilac-200 px-4 py-1.5 font-display text-xs font-bold uppercase tracking-[0.25em] text-blush-600 shadow-dreamy"
+        >
+          <HeartIcon size={12} /> i love u <HeartIcon size={12} />
         </motion.div>
 
         <motion.div

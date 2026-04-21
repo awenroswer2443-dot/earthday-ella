@@ -6,10 +6,10 @@ import Screen from "@/components/ui/Screen";
 import CandyButton from "@/components/ui/CandyButton";
 import FloatingDecor from "@/components/ui/FloatingDecor";
 import ProgressBar from "@/components/ui/ProgressBar";
-import { SparkleIcon } from "@/components/ui/Icons";
+import { SparkleIcon, MusicIcon } from "@/components/ui/Icons";
 import { useGame } from "@/lib/game-state";
 import { content } from "@/lib/content";
-import { play } from "@/lib/sounds";
+import { play, stopBirthday } from "@/lib/sounds";
 
 type MicState = "idle" | "listening" | "denied";
 
@@ -179,9 +179,21 @@ export default function CakeAct() {
     return () => stopMic();
   }, [stopMic]);
 
+  // Auto-start the birthday song when the cake appears (browsers require a prior
+  // user gesture, and blowing a candle or tapping gold button triggers audio).
+  // We attempt it but guard against missing AudioContext.
+  useEffect(() => {
+    const t = setTimeout(() => play("birthday"), 400);
+    return () => {
+      clearTimeout(t);
+      stopBirthday();
+    };
+  }, []);
+
   useEffect(() => {
     if (allOut) {
       stopMic();
+      stopBirthday();
       play("success");
       vibrate([80, 40, 80, 40, 160]);
     }
@@ -411,6 +423,27 @@ export default function CakeAct() {
               aria-label="Blow out the next candle"
             />
           )}
+        </div>
+
+        {/* Sing-along */}
+        <div className="flex items-center gap-2 rounded-full bg-white/70 px-4 py-2 text-xs font-semibold text-blush-600 shadow-dreamy backdrop-blur">
+          <motion.span
+            animate={{ y: [0, -3, 0], rotate: [-6, 6, -6] }}
+            transition={{ duration: 0.9, repeat: Infinity, ease: "easeInOut" }}
+            className="inline-flex"
+          >
+            <MusicIcon size={14} />
+          </motion.span>
+          <span className="font-display italic">♪ ♫ singing just for you</span>
+          <button
+            onClick={() => {
+              stopBirthday();
+              play("birthday");
+            }}
+            className="ml-1 rounded-full bg-blush-500 px-2 py-0.5 text-[10px] font-bold uppercase tracking-widest text-white"
+          >
+            sing again
+          </button>
         </div>
 
         {/* Mic row */}

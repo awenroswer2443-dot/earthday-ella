@@ -1,7 +1,7 @@
 "use client";
 
 import { AnimatePresence, motion } from "framer-motion";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Screen from "@/components/ui/Screen";
 import CandyButton from "@/components/ui/CandyButton";
 import Confetti from "@/components/ui/Confetti";
@@ -9,10 +9,10 @@ import Fireworks from "@/components/ui/Fireworks";
 import Starfield from "@/components/ui/Starfield";
 import FloatingDecor from "@/components/ui/FloatingDecor";
 import Mascot from "@/components/ui/Mascot";
-import { HeartIcon, SparkleIcon, StarIcon } from "@/components/ui/Icons";
+import { HeartIcon, SparkleIcon, StarIcon, MusicIcon } from "@/components/ui/Icons";
 import { useGame } from "@/lib/game-state";
 import { content } from "@/lib/content";
-import { play } from "@/lib/sounds";
+import { play, stopBirthday } from "@/lib/sounds";
 
 function vibrate(pattern: number | number[]) {
   if (typeof navigator !== "undefined" && "vibrate" in navigator) {
@@ -24,12 +24,26 @@ function vibrate(pattern: number | number[]) {
   }
 }
 
+type Floater = { id: number; x: number; y: number; label: string };
+
 export default function Act7Finale() {
   const { go, reset } = useGame();
   const c = content.act7;
   const [fire, setFire] = useState(0);
   const [beeTaps, setBeeTaps] = useState(0);
   const [showSecret, setShowSecret] = useState(false);
+  const [floaters, setFloaters] = useState<Floater[]>([]);
+  const floaterIdRef = useRef(0);
+
+  const spawnFloater = (x: number, y: number) => {
+    const id = floaterIdRef.current++;
+    const labels = ["i love u", "♥", "my girl", "♥", "i love u", "ella ♥"];
+    const label = labels[id % labels.length];
+    setFloaters((f) => [...f, { id, x, y, label }]);
+    setTimeout(() => {
+      setFloaters((f) => f.filter((fl) => fl.id !== id));
+    }, 1500);
+  };
 
   useEffect(() => {
     play("win");
@@ -54,6 +68,7 @@ export default function Act7Finale() {
   }, []);
 
   const restart = () => {
+    stopBirthday();
     reset();
     go("act1");
   };
@@ -89,7 +104,35 @@ export default function Act7Finale() {
       <Fireworks active density={1.2} />
       <Confetti fire={fire} continuous intensity={0.5} />
 
-      <div className="relative z-10 flex min-h-[100dvh] w-full flex-col items-center justify-center gap-6 px-6 py-20 text-center">
+      {/* Tap-spawned love floaters */}
+      <AnimatePresence>
+        {floaters.map((f) => (
+          <motion.div
+            key={f.id}
+            initial={{ opacity: 0, scale: 0.4, y: 0 }}
+            animate={{ opacity: [0, 1, 1, 0], scale: [0.4, 1.1, 1, 0.9], y: -90 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 1.4, ease: "easeOut" }}
+            className="pointer-events-none fixed z-50 -translate-x-1/2 -translate-y-1/2 font-display text-sm font-black text-blush-500 drop-shadow sm:text-base"
+            style={{
+              left: f.x,
+              top: f.y,
+              textShadow: "0 2px 10px rgba(255, 82, 136, 0.55)",
+            }}
+          >
+            {f.label}
+          </motion.div>
+        ))}
+      </AnimatePresence>
+
+      <div
+        className="relative z-10 flex min-h-[100dvh] w-full flex-col items-center justify-center gap-6 px-6 py-20 text-center"
+        onPointerDown={(e) => {
+          spawnFloater(e.clientX, e.clientY);
+          play("kiss");
+          vibrate(10);
+        }}
+      >
         {/* Bee mascot — the secret trigger */}
         <motion.div
           initial={{ scale: 0, rotate: -180 }}
@@ -234,6 +277,19 @@ export default function Act7Finale() {
             }}
           >
             <SparkleIcon size={18} /> more confetti
+          </CandyButton>
+          <CandyButton
+            variant="gold"
+            size="md"
+            sound={null}
+            onClick={() => {
+              stopBirthday();
+              play("birthday");
+              setFire((f) => f + 1);
+              vibrate([30, 40, 30]);
+            }}
+          >
+            <MusicIcon size={16} /> sing it again
           </CandyButton>
           <CandyButton
             variant="ghost"

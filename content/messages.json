@@ -60,7 +60,7 @@
     "title": "Happy ELLA Day",
     "sub": "Every day is Earth Day. Except today.",
     "tagline": "Today is the day the planet ties for second.",
-    "credit": "A small interactive thing, made with way too much care by Chad, for Ella.",
+    "credit": "A small interactive thing, made with way too much love by your boyfriend Chad — for his girlfriend Ella. I love you. ♥",
     "cta": "let's go"
   },
   "act4": {
@@ -94,7 +94,7 @@
       }
     ],
     "doneTitle": "Your garden is blooming.",
-    "doneSub": "Look what one day grew.",
+    "doneSub": "Look what one day grew. (also — i love u.)",
     "cta": "keep going"
   },
   "act5": {
@@ -152,7 +152,7 @@
       { "id": "f7", "kind": "flower", "tint": "gold" }
     ],
     "goal": 5,
-    "done": "A whole bouquet. Wrapped in a ribbon. Brought to you by the internet.",
+    "done": "A whole bouquet. Wrapped in a ribbon (E & C). Brought to you by the internet, and your very online boyfriend. i love u.",
     "cta": "one more thing"
   },
   "cake": {
@@ -164,21 +164,21 @@
     "micActive": "listening… blow gently",
     "micDenied": "no mic, no problem — tap the candles",
     "doneTitle": "Wish made.",
-    "doneSub": "19 candles. Whatever you wished — I hope it finds you.",
+    "doneSub": "19 candles. Whatever you wished — I hope it finds you. (i love u, my girl.)",
     "cta": "one more thing"
   },
   "act7": {
     "title": "Happy Ella Day",
     "letter": [
-      "The Earth gets one day a year, and it has to share with you. 19 years in, and you're still the better headline.",
+      "My girl. The Earth gets one day a year, and it has to share with you. 19 years in, and you're still the better headline.",
       "I don't know how oceans and forests and entire atmospheres feel about that. They can deal.",
       "You are the best thing about this little planet. A few km of South Africa between us isn't much — definitely not enough to stop me from being proud of you today.",
       "Have the softest, loudest, sunniest, most you day. Drink the tea. Laugh the laugh. Own the 19.",
-      "I'm so proud of you. I'm so lucky.",
-      "— Chad"
+      "I'm so proud of you. I'm so lucky. I love you, Ella — more than any Earth Day ticker can count.",
+      "— your boyfriend, Chad ♥"
     ],
     "signoff": "p.s. tap the little bee 🐝 three times. she's hiding something.",
-    "secret": "told you. one more: every day is earth day. except today. today is yours.",
+    "secret": "i love u. every day is earth day. except today. today is yours — my girl, my favourite person on this planet.",
     "replay": "replay the whole thing"
   }
 }
