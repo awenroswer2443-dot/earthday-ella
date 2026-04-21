@@ -1,7 +1,6 @@
 "use client";
 
 import { useMemo } from "react";
-import { motion } from "framer-motion";
 
 interface Props {
   count?: number;
@@ -18,7 +17,12 @@ export default function Starfield({ count = 60, className = "" }: Props) {
         size: 1 + Math.random() * 2.5,
         delay: Math.random() * 2,
         duration: 1.6 + Math.random() * 2.4,
-        hue: Math.random() < 0.25 ? "#ffd35c" : Math.random() < 0.5 ? "#ff7aa0" : "#ffffff",
+        hue:
+          Math.random() < 0.25
+            ? "#ffd35c"
+            : Math.random() < 0.5
+            ? "#ff7aa0"
+            : "#ffffff",
       })),
     [count]
   );
@@ -29,24 +33,21 @@ export default function Starfield({ count = 60, className = "" }: Props) {
       aria-hidden
     >
       {stars.map((s) => (
-        <motion.div
+        <div
           key={s.key}
-          className="absolute rounded-full"
-          style={{
-            left: `${s.x}%`,
-            top: `${s.y}%`,
-            width: s.size,
-            height: s.size,
-            background: s.hue,
-            boxShadow: `0 0 ${s.size * 3}px ${s.hue}`,
-          }}
-          animate={{ opacity: [0.2, 1, 0.2], scale: [0.8, 1.3, 0.8] }}
-          transition={{
-            duration: s.duration,
-            delay: s.delay,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
+          className="anim-twinkle absolute rounded-full"
+          style={
+            {
+              left: `${s.x}%`,
+              top: `${s.y}%`,
+              width: s.size,
+              height: s.size,
+              background: s.hue,
+              boxShadow: `0 0 ${s.size * 3}px ${s.hue}`,
+              "--dur": `${s.duration}s`,
+              "--delay": `${s.delay}s`,
+            } as React.CSSProperties
+          }
         />
       ))}
     </div>

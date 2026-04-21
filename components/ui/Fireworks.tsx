@@ -57,6 +57,11 @@ export default function Fireworks({
     const particles: Particle[] = [];
     let lastLaunch = 0;
     let raf = 0;
+    let paused = document.hidden;
+    const onVisibility = () => {
+      paused = document.hidden;
+    };
+    document.addEventListener("visibilitychange", onVisibility);
 
     const launch = () => {
       const x = canvas.width * (0.15 + Math.random() * 0.7);
@@ -89,6 +94,10 @@ export default function Fireworks({
     };
 
     const render = (t: number) => {
+      if (paused) {
+        raf = requestAnimationFrame(render);
+        return;
+      }
       // subtle fade instead of full clear for trails
       ctx.fillStyle = "rgba(255, 228, 236, 0.18)";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
@@ -148,6 +157,7 @@ export default function Fireworks({
     return () => {
       cancelAnimationFrame(raf);
       window.removeEventListener("resize", resize);
+      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, [active, density]);
 

@@ -76,6 +76,14 @@ function tone(
   envelope(gain, now, attack, decay, peak);
   osc.start(now);
   osc.stop(now + attack + decay + 0.02);
+  osc.onended = () => {
+    try {
+      osc.disconnect();
+      gain.disconnect();
+    } catch {
+      /* ignore */
+    }
+  };
 }
 
 function chord(freqs: number[], opts?: Parameters<typeof tone>[1]) {
@@ -112,6 +120,16 @@ function playBirthday(startOffset = 0) {
   const beat = 0.36; // seconds per beat
   let t = startOffset;
   const sources: OscillatorNode[] = [];
+  const cleanup = (osc: OscillatorNode, gain: GainNode) => {
+    osc.onended = () => {
+      try {
+        osc.disconnect();
+        gain.disconnect();
+      } catch {
+        /* ignore */
+      }
+    };
+  };
   for (const [freq, beats] of BIRTHDAY_MELODY) {
     const dur = beats * beat;
     const osc = c.createOscillator();
@@ -120,17 +138,16 @@ function playBirthday(startOffset = 0) {
     osc.frequency.setValueAtTime(freq, c.currentTime + t);
     osc.connect(gain).connect(c.destination);
     const start = c.currentTime + t;
-    // soft attack + sustained body + tail
     gain.gain.setValueAtTime(0, start);
     gain.gain.linearRampToValueAtTime(0.13, start + 0.04);
     gain.gain.setValueAtTime(0.13, start + Math.max(0.04, dur * 0.7));
     gain.gain.exponentialRampToValueAtTime(0.0001, start + dur);
     osc.start(start);
     osc.stop(start + dur + 0.02);
+    cleanup(osc, gain);
     sources.push(osc);
     t += dur;
   }
-  // Final chime flourish after the melody
   const flourishAt = t + 0.1;
   [NOTES.C5, NOTES.E5, NOTES.G5].forEach((f, i) => {
     const osc = c.createOscillator();
@@ -144,6 +161,7 @@ function playBirthday(startOffset = 0) {
     gain.gain.exponentialRampToValueAtTime(0.0001, start + 0.8);
     osc.start(start);
     osc.stop(start + 0.85);
+    cleanup(osc, gain);
     sources.push(osc);
   });
   return () => {
@@ -216,6 +234,14 @@ export function play(name: SoundName) {
       envelope(g, c2.currentTime, 0.01, 0.25, 0.08);
       o.start();
       o.stop(c2.currentTime + 0.3);
+      o.onended = () => {
+        try {
+          o.disconnect();
+          g.disconnect();
+        } catch {
+          /* ignore */
+        }
+      };
       break;
     }
     case "win":

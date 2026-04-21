@@ -105,3 +105,45 @@ body {
   -webkit-user-select: none;
   user-select: none;
 }
+
+/* Compositor-thread animations — lots of these can run without touching the main thread */
+@keyframes twinkle {
+  0%, 100% { opacity: 0.2; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.3); }
+}
+.anim-twinkle {
+  animation: twinkle var(--dur, 2s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+  will-change: opacity, transform;
+}
+
+@keyframes float-up {
+  0% { opacity: 0; transform: translate3d(0, 0, 0) rotate(var(--rot0, 0deg)) scale(0.6); }
+  50% { opacity: 0.9; transform: translate3d(0, -40px, 0) rotate(var(--rot1, 30deg)) scale(1); }
+  100% { opacity: 0; transform: translate3d(0, -80px, 0) rotate(var(--rot2, 60deg)) scale(0.8); }
+}
+.anim-float-up {
+  animation: float-up var(--dur, 5s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+  will-change: opacity, transform;
+}
+
+@keyframes flame-flicker {
+  0%, 100% { transform: scale(1, 1); opacity: 0.9; }
+  50% { transform: scale(1.12, 1.18); opacity: 1; }
+}
+.anim-flame {
+  animation: flame-flicker var(--dur, 0.55s) ease-in-out infinite;
+  animation-delay: var(--delay, 0s);
+  transform-origin: center;
+  transform-box: fill-box;
+  will-change: transform, opacity;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .anim-twinkle,
+  .anim-float-up,
+  .anim-flame {
+    animation: none;
+  }
+}

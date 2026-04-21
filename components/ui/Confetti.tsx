@@ -100,7 +100,17 @@ export default function Confetti({
     if (fire > 0) burst(Math.floor(140 * intensity));
 
     let rafId = 0;
+    let paused = document.hidden;
+    const onVisibility = () => {
+      paused = document.hidden;
+    };
+    document.addEventListener("visibilitychange", onVisibility);
+
     const render = () => {
+      if (paused) {
+        rafId = requestAnimationFrame(render);
+        return;
+      }
       ctx.clearRect(0, 0, canvas.width, canvas.height);
       if (continuous) drift();
       for (let i = particles.length - 1; i >= 0; i--) {
@@ -161,6 +171,7 @@ export default function Confetti({
     return () => {
       cancelAnimationFrame(rafId);
       window.removeEventListener("resize", resize);
+      document.removeEventListener("visibilitychange", onVisibility);
     };
   }, [fire, continuous, intensity]);
 

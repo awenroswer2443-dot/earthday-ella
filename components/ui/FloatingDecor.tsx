@@ -1,6 +1,5 @@
 "use client";
 
-import { motion } from "framer-motion";
 import { useMemo } from "react";
 import {
   HeartIcon,
@@ -40,6 +39,7 @@ export default function FloatingDecor({
     const icons = ICONS[palette];
     return Array.from({ length: count }).map((_, i) => {
       const Icon = icons[i % icons.length];
+      const rot = Math.round(Math.random() * 360);
       return {
         key: i,
         Icon,
@@ -49,7 +49,9 @@ export default function FloatingDecor({
         top: Math.round(Math.random() * 100),
         dur: 3 + Math.random() * 5,
         delay: Math.random() * 3,
-        rot: Math.round(Math.random() * 360),
+        rot0: rot,
+        rot1: rot + 30,
+        rot2: rot + 60,
       };
     });
   }, [count, palette]);
@@ -59,28 +61,28 @@ export default function FloatingDecor({
       className={`pointer-events-none absolute inset-0 overflow-hidden ${className}`}
       aria-hidden
     >
-      {items.map(({ key, Icon, color, size, left, top, dur, delay, rot }) => (
-        <motion.div
-          key={key}
-          className="absolute"
-          style={{ left: `${left}%`, top: `${top}%`, color }}
-          initial={{ opacity: 0, scale: 0.6, rotate: rot }}
-          animate={{
-            opacity: [0, 0.9, 0],
-            y: [0, -40, -80],
-            rotate: [rot, rot + 30, rot + 60],
-            scale: [0.6, 1, 0.8],
-          }}
-          transition={{
-            duration: dur,
-            delay,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
-          <Icon size={size} />
-        </motion.div>
-      ))}
+      {items.map(
+        ({ key, Icon, color, size, left, top, dur, delay, rot0, rot1, rot2 }) => (
+          <div
+            key={key}
+            className="anim-float-up absolute"
+            style={
+              {
+                left: `${left}%`,
+                top: `${top}%`,
+                color,
+                "--dur": `${dur}s`,
+                "--delay": `${delay}s`,
+                "--rot0": `${rot0}deg`,
+                "--rot1": `${rot1}deg`,
+                "--rot2": `${rot2}deg`,
+              } as React.CSSProperties
+            }
+          >
+            <Icon size={size} />
+          </div>
+        )
+      )}
     </div>
   );
 }

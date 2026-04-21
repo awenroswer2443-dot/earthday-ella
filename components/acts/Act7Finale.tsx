@@ -99,10 +99,10 @@ export default function Act7Finale() {
         }}
         aria-hidden
       />
-      <Starfield count={70} />
-      <FloatingDecor count={14} palette="ella" />
-      <Fireworks active density={0.55} />
-      <Confetti fire={fire} intensity={0.35} />
+      <Starfield count={40} />
+      <FloatingDecor count={8} palette="ella" />
+      <Fireworks active density={0.45} />
+      <Confetti fire={fire} intensity={0.3} />
 
       {/* Tap-spawned love floaters */}
       <AnimatePresence>

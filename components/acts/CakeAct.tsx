@@ -365,22 +365,19 @@ export default function CakeAct() {
                   <rect x={-0.15} y={-1.2} width={0.3} height={1.2} fill="#3b1e3a" />
                   {/* Flame */}
                   {isLit && (
-                    <motion.ellipse
+                    <ellipse
                       cx={0}
                       cy={-3}
                       rx={1.2}
                       ry={2.4}
                       fill="url(#flame)"
-                      animate={{
-                        ry: [2.2, 2.6, 2.3],
-                        rx: [1.1, 1.3, 1.15],
-                        opacity: [0.9, 1, 0.85],
-                      }}
-                      transition={{
-                        duration: 0.5 + (i % 5) * 0.05,
-                        repeat: Infinity,
-                        ease: "easeInOut",
-                      }}
+                      className="anim-flame"
+                      style={
+                        {
+                          "--dur": `${0.5 + (i % 5) * 0.05}s`,
+                          "--delay": `${(i % 7) * 0.05}s`,
+                        } as React.CSSProperties
+                      }
                     />
                   )}
                   {/* Clickable area */}
