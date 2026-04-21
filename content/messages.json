@@ -1,0 +1,169 @@
+{
+  "meta": {
+    "title": "Earth Day 2026 — Every Day is Earth Day",
+    "description": "Earth Day 2026. Every day is Earth Day. Except today — today is something even better.",
+    "domain": "earthday.co.za"
+  },
+  "boot": {
+    "logo": "EARTHDAY.CO.ZA",
+    "tagline": "Loading the planet...",
+    "facts": [
+      "Did you know? 100% of Earths contain Ella.",
+      "Fun fact: all oxygen on Earth is downstream of one specific person.",
+      "Scientists agree: the planet is 3.7% more radiant on April 22nd.",
+      "Bees do a little dance. It's about Ella.",
+      "The Sun rises every 24 hours just to check in on her."
+    ]
+  },
+  "act1": {
+    "headline": "Happy Earth Day 2026",
+    "sub": "Every day is Earth Day.",
+    "pitch": "Take the pledge. Plant a tree. Save a planet. Make today count — because the Earth only gets one of these a year.",
+    "cta": "Take the 2026 Pledge",
+    "counterLabel": "Pledges signed this minute",
+    "ticker": [
+      "7.9 billion people · 1 shared planet · 0 backups",
+      "Every 60 seconds, a minute passes. Also, a forest is lost.",
+      "Reduce · Reuse · Recycle · Re-fall-in-love-with-this-site",
+      "Your carbon footprint is smaller than your impact.",
+      "The ocean is 71% water. The other 29% is plastic. (Not really. Mostly water.)",
+      "Sponsored by: The Sky, The Sea, and one specific girl."
+    ],
+    "badges": [
+      { "icon": "leaf", "label": "Carbon Neutral" },
+      { "icon": "globe", "label": "Since 1970" },
+      { "icon": "recycle", "label": "100% Recyclable" },
+      { "icon": "bee", "label": "Bee Approved" }
+    ],
+    "stats": [
+      { "value": "1,243,891", "label": "Trees planted in 2026" },
+      { "value": "89%", "label": "Of people care about the planet" },
+      { "value": "1", "label": "Girl this is really about" }
+    ]
+  },
+  "act2": {
+    "glitchLines": [
+      "LOADING EARTH_DAY.exe",
+      "PLANET STATUS: OK",
+      "ERROR — unexpected input ‘ELLA’",
+      "OVERRIDING …",
+      "WAIT. april 22? isn't that…",
+      "RECALIBRATING…",
+      "HAPPY —— ERR —— HAPPY ——",
+      "this isn't right",
+      "this is MORE right"
+    ]
+  },
+  "act3": {
+    "preTitle": "Plot twist.",
+    "title": "Happy ELLA Day",
+    "sub": "Every day is Earth Day. Except today.",
+    "tagline": "Today is the day the planet ties for second.",
+    "credit": "A small interactive thing, made with way too much care by Chad, for Ella.",
+    "cta": "let's go"
+  },
+  "act4": {
+    "title": "Plant a Wish Garden",
+    "sub": "Tap each seed to plant a wish. Watch it bloom.",
+    "seeds": [
+      {
+        "id": "s1",
+        "color": "blush",
+        "bud": "A year full of quiet mornings and loud laughs."
+      },
+      {
+        "id": "s2",
+        "color": "gold",
+        "bud": "Every sunrise biased slightly in your favour."
+      },
+      {
+        "id": "s3",
+        "color": "lilac",
+        "bud": "Enough courage for the scary things. Enough softness for the rest."
+      },
+      {
+        "id": "s4",
+        "color": "peach",
+        "bud": "Coffee that's always the right temperature."
+      },
+      {
+        "id": "s5",
+        "color": "moss",
+        "bud": "Every plane you take, landing safely. Every timezone we share, shrinking."
+      }
+    ],
+    "doneTitle": "Your garden is blooming.",
+    "doneSub": "Look what one day grew.",
+    "cta": "keep going"
+  },
+  "act5": {
+    "title": "Earth vs Ella",
+    "sub": "An extremely scientific comparison. Tap a card to flip.",
+    "rows": [
+      {
+        "cat": "Age",
+        "earth": { "v": "4.5 billion years", "tag": "ancient" },
+        "ella": { "v": "exactly the right age", "tag": "iconic" }
+      },
+      {
+        "cat": "Mass",
+        "earth": { "v": "5.97 × 10²⁴ kg", "tag": "heavy" },
+        "ella": { "v": "lifts my entire mood", "tag": "heavier impact" }
+      },
+      {
+        "cat": "Gravity",
+        "earth": { "v": "9.8 m/s²", "tag": "pulls things down" },
+        "ella": { "v": "pulls things up", "tag": "unmatched" }
+      },
+      {
+        "cat": "Atmosphere",
+        "earth": { "v": "78% nitrogen", "tag": "breathable" },
+        "ella": { "v": "takes mine away", "tag": "still breathing, barely" }
+      },
+      {
+        "cat": "Distance",
+        "earth": { "v": "149.6 million km from Sun", "tag": "far" },
+        "ella": { "v": "too many km from me this week", "tag": "working on it" }
+      },
+      {
+        "cat": "Moons",
+        "earth": { "v": "1", "tag": "loyal" },
+        "ella": { "v": "has me, so: also 1", "tag": "loyaler" }
+      },
+      {
+        "cat": "Core",
+        "earth": { "v": "molten iron", "tag": "hot" },
+        "ella": { "v": "pure gold", "tag": "hotter" }
+      }
+    ],
+    "cta": "the winner is obvious"
+  },
+  "act6": {
+    "title": "Build her bouquet",
+    "sub": "Tap the flowers. Add them to the ribbon.",
+    "flowers": [
+      { "id": "f1", "kind": "flower", "tint": "blush" },
+      { "id": "f2", "kind": "flower", "tint": "gold" },
+      { "id": "f3", "kind": "flower", "tint": "lilac" },
+      { "id": "f4", "kind": "flower", "tint": "peach" },
+      { "id": "f5", "kind": "flower", "tint": "cream" },
+      { "id": "f6", "kind": "flower", "tint": "blush" },
+      { "id": "f7", "kind": "flower", "tint": "gold" }
+    ],
+    "goal": 5,
+    "done": "A whole bouquet. Wrapped in a ribbon. Brought to you by the internet.",
+    "cta": "one more thing"
+  },
+  "act7": {
+    "title": "Happy Ella Day",
+    "letter": [
+      "The Earth gets one day a year, and it has to share with you.",
+      "I don't know how oceans and forests and entire atmospheres feel about that, but they can deal.",
+      "You are the best thing about this little planet. Long distance is just geography — you're closer than any km would suggest.",
+      "Have the softest, loudest, sunniest, most you day. I'm so proud of you. I'm so lucky.",
+      "— Chad"
+    ],
+    "signoff": "p.s. refresh for confetti.",
+    "replay": "replay the whole thing"
+  }
+}
